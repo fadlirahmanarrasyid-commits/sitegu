@@ -3,7 +3,7 @@ import {
   Users, BookOpen, Calendar, CheckSquare, Book, 
   FileSpreadsheet, Activity, Printer, Settings, Info, 
   LogOut, LayoutDashboard, UserPlus, Database, UserCheck, 
-  Plus, Trash2, Edit, Save, Download, Upload, X, Cloud, Smartphone, School, Shield, Link as LinkIcon
+  Plus, Trash2, Edit, Save, Download, Upload, X, Cloud, Smartphone, School, Shield, Link as LinkIcon, Menu
 } from 'lucide-react';
 
 // --- FIREBASE IMPORTS ---
@@ -64,7 +64,8 @@ export default function App() {
   const [isCloudReady, setIsCloudReady] = useState(false);
   const [savingStatus, setSavingStatus] = useState('idle');
   const [selectedTerm, setSelectedTerm] = useState(''); // POSISI DIPERBAIKI (Sesuai Aturan Hooks React)
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // <--- TAMBAHKAN BARIS INI
+ 
   // PWA State
   const [deferredPrompt, setDeferredPrompt] = useState(null);
 
@@ -331,13 +332,31 @@ export default function App() {
     }
   };
 
-  return (
+return (
     <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">
-      {/* Sidebar */}
-      <aside className="w-64 bg-slate-800 text-white flex flex-col print:hidden">
-        <div className="p-4 bg-slate-900 border-b border-slate-700 text-center">
+      
+      {/* OVERLAY GELAP UNTUK HP (Menutup sidebar jika diklik di luar) */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/60 z-40 md:hidden transition-opacity"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar Responsive */}
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-800 text-white flex flex-col print:hidden transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${isSidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'}`}>
+        <div className="p-4 bg-slate-900 border-b border-slate-700 text-center relative">
+          
+          {/* TOMBOL SILANG (X) KHUSUS DI HP */}
+          <button 
+            onClick={() => setIsSidebarOpen(false)} 
+            className="absolute top-4 right-4 text-slate-400 hover:text-white md:hidden"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
           <h1 className="text-xl font-bold text-blue-400">SiTeGu</h1>
-          <p className="text-xs text-blue-200 mt-1 italic">Sinergi Teknologi, Dedikasi untuk Guru</p>
+          <p className="text-[10px] text-blue-200 mt-1 italic">Sinergi Teknologi, Dedikasi untuk Guru</p>
           <p className="text-xs text-slate-400 mt-1 truncate">{data.settings.schoolName}</p>
           
           {/* FITUR DROPDOWN FILTER MESIN WAKTU */}
@@ -360,7 +379,10 @@ export default function App() {
             {menuItems.map(item => (
               <li key={item.id}>
                 <button
-                  onClick={() => setActiveTab(item.id)}
+                  onClick={() => { 
+                    setActiveTab(item.id); 
+                    setIsSidebarOpen(false); // Otomatis tutup sidebar di HP saat menu diklik
+                  }}
                   className={`w-full flex items-center px-6 py-3 text-sm transition-colors ${
                     activeTab === item.id ? 'bg-blue-600 text-white border-r-4 border-blue-300' : 'text-slate-300 hover:bg-slate-700 hover:text-white'
                   }`}
@@ -372,9 +394,9 @@ export default function App() {
             ))}
           </ul>
         </nav>
-        <div className="p-4 bg-slate-900">
+        <div className="p-4 bg-slate-900 border-t border-slate-700">
           <div className="flex items-center text-sm mb-4">
-            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center mr-3 uppercase font-bold text-white">
+            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center mr-3 uppercase font-bold text-white flex-shrink-0">
               {currentUser.name.charAt(0)}
             </div>
             <div className="flex-1 overflow-hidden">
@@ -393,11 +415,34 @@ export default function App() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto print:bg-white print:m-0 print:p-0">
-        <div className="p-8 print:p-0 relative">
+      <main className="flex-1 overflow-y-auto print:bg-white print:m-0 print:p-0 bg-slate-50">
+        
+        {/* HEADER KHUSUS MOBILE (Muncul jika layar kecil) */}
+        <div className="md:hidden flex items-center justify-between bg-white p-4 shadow-sm border-b sticky top-0 z-30 print:hidden">
+          <div className="flex items-center overflow-hidden">
+            <div className="w-8 h-8 bg-blue-50 flex items-center justify-center rounded border border-blue-100 mr-2 flex-shrink-0">
+              <School className="w-5 h-5 text-blue-600" />
+            </div>
+            <div className="overflow-hidden">
+              <h2 className="font-bold text-blue-800 text-sm leading-tight truncate">SiTeGu</h2>
+              <p className="text-[10px] text-gray-500 truncate w-40">{data.settings.schoolName}</p>
+            </div>
+          </div>
+          <button 
+            onClick={() => setIsSidebarOpen(true)} 
+            className="p-2 bg-slate-100 rounded-md text-slate-600 hover:bg-slate-200 focus:outline-none"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Padding disesuaikan: p-4 untuk HP, p-8 untuk Laptop */}
+        <div className="p-4 md:p-8 print:p-0 relative">
+          
+          {/* Status Menyimpan di Kanan Atas */}
           {savingStatus === 'saving' && (
             <div className="absolute top-2 right-4 bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full flex items-center shadow print:hidden">
-              <Cloud className="w-3 h-3 mr-1 animate-pulse" /> Menyimpan ke Server...
+              <Cloud className="w-3 h-3 mr-1 animate-pulse" /> Menyimpan...
             </div>
           )}
           {savingStatus === 'saved' && (
@@ -417,6 +462,7 @@ export default function App() {
             </div>
           )}
           
+          {/* Render Komponen Utama */}
           {renderModule()}
         </div>
       </main>
