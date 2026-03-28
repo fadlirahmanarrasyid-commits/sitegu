@@ -89,34 +89,11 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  // --- SETUP PWA MANIFEST & LISTENER ---
+    // --- SETUP PWA LISTENER ---
   useEffect(() => {
-    const manifest = {
-      name: "Sistem Terpadu Guru (SiTeGu)",
-      short_name: "SiTeGu",
-      start_url: ".",
-      display: "standalone",
-      background_color: "#f8fafc",
-      theme_color: "#2563eb",
-      icons: [{
-        src: "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/%3E%3C/svg%3E",
-        sizes: "192x192",
-        type: "image/svg+xml"
-      }]
-    };
-    const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-    const manifestURL = URL.createObjectURL(blob);
-    let link = document.querySelector('link[rel="manifest"]');
-    if (!link) {
-      link = document.createElement('link');
-      link.rel = 'manifest';
-      document.head.appendChild(link);
-    }
-    link.href = manifestURL;
-
     const handleBeforeInstallPrompt = (e) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
+      e.preventDefault(); // Mencegah Chrome memunculkan popup otomatis bawaan
+      setDeferredPrompt(e); // Simpan event agar bisa dipicu oleh tombol kita
     };
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
