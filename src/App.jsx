@@ -241,7 +241,7 @@ export default function App() {
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
           <div className="text-center mb-8">
             <School className="w-12 h-12 text-blue-600 mx-auto mb-2" />
-            <h1 className="text-2xl font-bold text-blue-600 mb-1">SiTeGu</h1>
+            <h1 className="text-2xl font-bold text-blue-600 mb-1">SiTeGu 4.3</h1>
             <p className="text-gray-500 text-sm font-medium">Sinergi Teknologi, Dedikasi untuk Guru</p>
             <p className="text-gray-400 text-xs mt-1">{data.settings.schoolName}</p>
           </div>
@@ -256,7 +256,7 @@ export default function App() {
               <input name="password" type="password" required className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-blue-500 focus:border-blue-500" />
             </div>
             <button type="submit" className="w-full bg-blue-600 text-white rounded-md py-2 hover:bg-blue-700 font-bold mt-6 shadow">Masuk Aplikasi</button>
-            <p className="text-xs text-center text-gray-400 mt-4">Gunakan "admin" / "123" untuk login administrator default.</p>
+            <p className="text-xs text-center text-gray-400 mt-4">Copyright © 2026 SiTeGu. Fadli Rahman,S.Pd (SMKN 2 Sebulu).</p>
           </form>
         </div>
       </div>
@@ -2267,7 +2267,7 @@ function ModulTentang() {
               
               <div className="mt-4 p-3 bg-yellow-100 rounded border border-yellow-300">
                 <p className="font-medium text-yellow-900 mb-1">💳 Bank Kaltimtara</p>
-                <p className="font-bold text-xl text-yellow-900 tracking-wider">0458522</p>
+                <p className="font-bold text-xl text-yellow-900 tracking-wider">0062322853</p>
                 <p className="text-xs text-yellow-800 mt-1">a.n. Fadli Rahman</p>
               </div>
            </div>
