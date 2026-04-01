@@ -2288,13 +2288,20 @@ function ModulTentang() {
       </div>
 
       <div className="text-left text-sm text-gray-700 border p-6 rounded-lg bg-blue-50/30">
-        <h3 className="font-bold mb-2">Log Perubahan Utama</h3>
-        <ul className="list-disc list-inside space-y-1 text-xs">
-          <li><span className="font-bold text-blue-600">v4.3.0 - Rebranding ke SiTeGu, Dispensasi dihitung Hadir, penambahan kolom persentase absen.</span></li>
-          <li>v4.2.0 - Fitur Mesin Waktu: Pilih Periode/Semester di Sidebar untuk melihat/cetak data arsip lama.</li>
-          <li>v4.1.0 - Import Siswa, Mapel, Kelas & Penugasan via CSV. Tambah Print Pantau. Rekap Nilai dengan Max/Min/Rata-rata.</li>
-          <li>v4.0.0 - Migrasi ke Single School & Sistem Penugasan (RBAC Isolasi Data per Guru)</li>
-          <li>v2.0.0 - Full Integrasi Cloud Server Firebase</li>
+        <h3 className="font-bold mb-3 text-blue-800 border-b border-blue-200 pb-2">Log Perubahan Utama</h3>
+        <ul className="list-disc list-inside space-y-2 text-xs">
+          <li>
+            <span className="font-bold text-blue-700">v4.4.0 - Update Besar (Offline & PWA):</span><br/>
+            <span className="ml-4 text-gray-600">- Fitur Offline: Bisa input absen & jurnal tanpa internet (otomatis sinkron ke server saat online).</span><br/>
+            <span className="ml-4 text-gray-600">- Tampilan HP (Mobile) kini lebih lega dengan menu garis tiga (Sidebar Responsif).</span><br/>
+            <span className="ml-4 text-gray-600">- Instalasi PWA lebih stabil untuk Android & Desktop.</span><br/>
+            <span className="ml-4 text-gray-600">- Kolom Persentase (%) di Rekap Absen. Status Dispensasi dihitung Hadir.</span><br/>
+            <span className="ml-4 text-gray-600">- Perubahan nama ke SiTeGu dan penyesuaian label NIPPPK.</span>
+          </li>
+          <li><span className="font-medium text-gray-600">v4.2.0 - Fitur Mesin Waktu: Pilih Periode/Semester di Sidebar untuk melihat data arsip lama.</span></li>
+          <li><span className="font-medium text-gray-600">v4.1.0 - Import via CSV. Cetak Pantau Kritis. Rekap Nilai (Max/Min/Rata-rata).</span></li>
+          <li><span className="font-medium text-gray-600">v4.0.0 - Sistem Penugasan (Isolasi Data per Guru untuk privasi).</span></li>
+          <li><span className="font-medium text-gray-600">v2.0.0 - Full Integrasi Cloud Server Firebase (Aman & Sentral).</span></li>
         </ul>
       </div>
     </div>
