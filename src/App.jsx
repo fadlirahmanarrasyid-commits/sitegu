@@ -9,7 +9,7 @@ import {
 // --- FIREBASE IMPORTS ---
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, doc, onSnapshot, setDoc, getDoc } from 'firebase/firestore';
+import { getFirestore, doc, onSnapshot, setDoc, getDoc, enableIndexedDbPersistence } from 'firebase/firestore';
 
 // --- FIREBASE INITIALIZATION ---
 const firebaseConfig = {
@@ -24,6 +24,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+// --- AKTIFKAN MODE OFFLINE FIREBASE ---
+enableIndexedDbPersistence(db)
+  .catch((err) => {
+    if (err.code == 'failed-precondition') {
+      console.log('Mode offline gagal: Aplikasi SiTeGu sedang dibuka di banyak tab sekaligus.');
+    } else if (err.code == 'unimplemented') {
+      console.log('Browser ini tidak mendukung penyimpanan offline.');
+    }
+  });
 const appId = 'sitegu-app-v1'; // Beri nama ID unik untuk aplikasi Anda
 
 // --- INITIAL DATA GENERATOR UNTUK SEKOLAH ---
