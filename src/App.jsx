@@ -74,8 +74,8 @@ export default function App() {
   const [isCloudReady, setIsCloudReady] = useState(false);
   const [savingStatus, setSavingStatus] = useState('idle');
   const [selectedTerm, setSelectedTerm] = useState(''); // POSISI DIPERBAIKI (Sesuai Aturan Hooks React)
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // <--- TAMBAHKAN BARIS INI
- 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // <--- CODE SIDEBAR RESPONSIVE
+  const [showOfflineModal, setShowOfflineModal] = useState(false);
   // PWA State
   const [deferredPrompt, setDeferredPrompt] = useState(null);
 
@@ -344,7 +344,41 @@ export default function App() {
 
 return (
     <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">
-      
+      {/* MODAL PERINGATAN OFFLINE */}
+      {showOfflineModal && (
+        <div className="fixed inset-0 bg-slate-900/70 flex items-center justify-center z-[70] p-4">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden animate-fade-in relative">
+            <div className="px-6 py-4 bg-red-600 text-white flex justify-between items-center">
+              <h3 className="font-bold text-lg flex items-center"><Shield className="w-5 h-5 mr-2"/> Peringatan Mode Offline</h3>
+              <button onClick={() => setShowOfflineModal(false)} className="text-red-100 hover:text-white font-bold transition-transform hover:scale-110">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 text-sm text-gray-700">
+              <p className="mb-4 text-red-700 font-medium">
+                Aplikasi SiTeGu dapat digunakan <b>tanpa internet</b>. Namun, agar data Anda tidak hilang sebelum tersinkronisasi, <b>SANGAT DILARANG</b> melakukan 2 hal berikut saat sedang offline:
+              </p>
+              <div className="space-y-4">
+                <div className="bg-red-50 p-4 rounded-lg border border-red-100">
+                  <p className="font-bold text-red-800 flex items-start"><span className="mr-2">1.</span> Menghapus Data Browser</p>
+                  <p className="text-xs text-red-600 mt-1 ml-5">Jangan membersihkan <i>cache</i>, <i>history</i>, atau <i>storage</i> browser sebelum mendapat koneksi internet.</p>
+                </div>
+                <div className="bg-red-50 p-4 rounded-lg border border-red-100">
+                  <p className="font-bold text-red-800 flex items-start"><span className="mr-2">2.</span> Menggunakan Tab Samaran</p>
+                  <p className="text-xs text-red-600 mt-1 ml-5">Jangan membuka aplikasi via Tab Samaran (Incognito). Mode ini akan menghapus data lokal saat browser ditutup.</p>
+                </div>
+              </div>
+              <div className="mt-6 pt-4 border-t border-gray-100 flex justify-end">
+                <button onClick={() => setShowOfflineModal(false)} className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2 rounded-lg font-bold transition-colors">
+                  Saya Mengerti
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
       {/* OVERLAY GELAP UNTUK HP (Menutup sidebar jika diklik di luar) */}
       {isSidebarOpen && (
         <div 
@@ -418,6 +452,16 @@ return (
               </div>
             </div>
           </div>
+
+        {/* TOMBOL MODAL OFFLINE BARU */}
+          <button 
+            onClick={() => { setShowOfflineModal(true); setIsSidebarOpen(false); }} 
+            className="w-full flex items-center justify-center py-2 bg-orange-600/20 text-orange-400 hover:bg-orange-600/40 rounded transition-colors mb-2 text-xs font-bold"
+          >
+            <Shield className="w-4 h-4 mr-2" /> Info Mode Offline
+          </button>
+
+
           <button onClick={handleLogout} className="w-full flex items-center justify-center py-2 bg-red-600/20 text-red-400 hover:bg-red-600/40 rounded transition-colors">
             <LogOut className="w-4 h-4 mr-2" /> Logout
           </button>
